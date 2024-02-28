@@ -5,7 +5,10 @@ import fr.haronman.todolist.model.Todo;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -31,9 +34,24 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         liste = new ArrayList<>();
         db = new TodoHandler(getApplicationContext());
+
+        EditText editText = findViewById(R.id.editTextText3);
+        Button add = findViewById(R.id.add);
+        add.setEnabled(false);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                // Activer ou désactiver le bouton en fonction de si l'EditText est vide ou non
+                add.setEnabled(charSequence.length() > 0);
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+
         courseRV = findViewById(R.id.idRVCourse);
         affiche();
-
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             @Override
@@ -66,7 +84,8 @@ public class MainActivity extends AppCompatActivity {
                     db.getLastId() ,
                     e.getText().toString(),
                     null,
-                    LocalDate.now().toString());
+                    LocalDate.now().toString()
+            );
             liste.add(todo);
             db.addTodo(todo);
         }

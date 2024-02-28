@@ -10,7 +10,7 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -40,6 +40,8 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="191dp"
         android:ems="10"
+        android:hint="@string/new_task"
+        android:autofillHints=""
         android:inputType="text"
         android:text="" />
 
