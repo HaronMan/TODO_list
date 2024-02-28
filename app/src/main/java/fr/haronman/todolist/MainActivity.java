@@ -1,6 +1,9 @@
 package fr.haronman.todolist;
 
-import android.content.Intent;
+import fr.haronman.todolist.database.TodoHandler;
+import fr.haronman.todolist.model.Todo;
+
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -12,18 +15,22 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Main_Activity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
     private ArrayList<Todo> liste;
     private RecyclerView courseRV;
     private RecyclerViewAdapter recyclerViewAdapter;
+    private TodoHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        liste = new ArrayList<Todo>();
+        liste = new ArrayList<>();
+        db = new TodoHandler(getApplicationContext());
         courseRV = findViewById(R.id.idRVCourse);
         affiche();
 
@@ -38,6 +45,7 @@ public class Main_Activity extends AppCompatActivity {
                 Todo deletedCourse = liste.get(viewHolder.getAdapterPosition());
                 int position = viewHolder.getAdapterPosition();
                 liste.remove(viewHolder.getAdapterPosition());
+                db.deleteTodo(deletedCourse);
                 recyclerViewAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
                 Snackbar.make(courseRV, deletedCourse.getTitre(), Snackbar.LENGTH_LONG).setAction("Annuler", new View.OnClickListener() {
                     @Override
@@ -53,7 +61,15 @@ public class Main_Activity extends AppCompatActivity {
     public void ajouter(View v) {
         courseRV = findViewById(R.id.idRVCourse);
         EditText e = findViewById(R.id.editTextText3);
-        liste.add(new Todo(e.getText().toString()));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Todo todo = new Todo(
+                    db.getLastId() ,
+                    e.getText().toString(),
+                    null,
+                    LocalDate.now().toString());
+            liste.add(todo);
+            db.addTodo(todo);
+        }
         affiche();
     }
 

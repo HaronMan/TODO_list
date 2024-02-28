@@ -1,5 +1,7 @@
 package fr.haronman.todolist;
 
+import fr.haronman.todolist.model.Todo;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

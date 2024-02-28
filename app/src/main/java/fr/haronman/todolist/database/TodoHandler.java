@@ -30,7 +30,7 @@ public class TodoHandler extends SQLiteHelper{
         return (int) insertId;
     }
 
-    public int updateStudent(Todo todo){
+    public int updateTodo(Todo todo){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(dbHelper.KEY_TITLE, todo.getTitre());
@@ -49,8 +49,9 @@ public class TodoHandler extends SQLiteHelper{
         Cursor cursor = db.query(dbHelper.TABLE_TODO, new String[] { dbHelper.KEY_ID,
                         dbHelper.KEY_TITLE, dbHelper.KEY_DESC, dbHelper.KEY_DATE, dbHelper.KEY_DONE }, dbHelper.KEY_ID + "=?",
                 new String[] { String.valueOf(id) }, null, null, dbHelper.KEY_DATE, null);
-        if (cursor != null)
+        if (cursor != null) {
             cursor.moveToFirst();
+        }
         Todo todo = new Todo(Integer.parseInt(cursor.getString(0)),
                 cursor.getString(1), cursor.getString(2), cursor.getString(3));
         return todo;
@@ -99,6 +100,20 @@ public class TodoHandler extends SQLiteHelper{
             } while (cursor.moveToNext());
         }
         return todoList;
+    }
+
+    public int getLastId(){
+        int lastId;
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String selectQuery = "SELECT "+dbHelper.KEY_ID+" FROM " + dbHelper.TABLE_TODO +
+                " ORDER BY "+dbHelper.KEY_ID+ " DESC LIMIT 1";
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            lastId = Integer.parseInt(cursor.getString(0));
+        }else{
+            lastId = 0;
+        }
+        return lastId;
     }
 
     public void deleteTodo(Todo todo) {
