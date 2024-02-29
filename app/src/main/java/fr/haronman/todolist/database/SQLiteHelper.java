@@ -145,4 +145,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.delete( TABLE_TODO,  KEY_ID + " = ?",
                 new String[] { String.valueOf(todo.getId()) });
     }
+
+    public void deleteAllTodo() {
+        SQLiteDatabase db =  getWritableDatabase();
+        db.delete(TABLE_TODO, null, null);
+    }
 }

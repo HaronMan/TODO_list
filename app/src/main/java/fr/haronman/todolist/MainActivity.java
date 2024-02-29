@@ -3,14 +3,18 @@ package fr.haronman.todolist;
 import fr.haronman.todolist.database.SQLiteHelper;
 import fr.haronman.todolist.model.Todo;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
@@ -103,6 +107,38 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
+    }
+
+    //Action menu
+    public void deleteAll(MenuItem item){
+        if(liste.size() == 0){
+            Toast toast = new Toast(this);
+            toast.setDuration(Toast.LENGTH_LONG);
+            toast.setText("Vous n'avez aucune tache");
+            toast.show();
+        }else {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("Confirmation");
+            alert.setMessage("Etes-vous sur de vouloir tout supprimer ?");
+
+            alert.setPositiveButton("Accepter", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    liste.clear();
+                    db.deleteAllTodo();
+                    Snackbar.make(courseRV, "Suppression de toutes les taches effectués", Snackbar.LENGTH_LONG).show();
+
+                    recyclerViewAdapter.notifyDataSetChanged();
+                }
+            });
+            alert.setNegativeButton("Refuser", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            alert.show();
+        }
     }
 
     public void ajouter(View v) {
