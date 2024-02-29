@@ -83,9 +83,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         return todo;
     }
 
-    public List<Todo> getAllTodo(){
+    public ArrayList<Todo> getAllTodo(){
         SQLiteDatabase db =  getWritableDatabase();
-        List<Todo> todoList = new ArrayList<Todo>();
+        ArrayList<Todo> todoList = new ArrayList<Todo>();
         String selectQuery = "SELECT * FROM " +  TABLE_TODO;
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {

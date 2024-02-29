@@ -17,6 +17,13 @@ public class Todo {
         this.fait = false;
     }
 
+    public Todo(String titre) {
+        this.titre = titre;
+        this.description = "";
+        this.date = "";
+        this.fait = false;
+    }
+
     public int getId() {
         return id;
     }

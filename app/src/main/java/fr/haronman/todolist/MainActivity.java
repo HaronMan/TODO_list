@@ -73,6 +73,20 @@ public class MainActivity extends AppCompatActivity {
                 }).show();
             }
         }).attachToRecyclerView(courseRV);
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                Todo deletedCourse = liste.get(viewHolder.getAdapterPosition());
+                int position = viewHolder.getAdapterPosition();
+                liste.remove(viewHolder.getAdapterPosition());
+                recyclerViewAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+            }
+        }).attachToRecyclerView(courseRV);
     }
 
     public void ajouter(View v) {
@@ -90,45 +104,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void affiche() {
+        liste = db.getAllTodo();
         recyclerViewAdapter = new RecyclerViewAdapter(liste, this);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         courseRV.setLayoutManager(manager);
         courseRV.setAdapter(recyclerViewAdapter);
-    }
-
-//    public void consulter(View v, @NonNull RecyclerView.ViewHolder viewHolder) {
-//        Todo deletedCourse = liste.get(viewHolder.getAdapterPosition());
-//        int position = viewHolder.getAdapterPosition();
-//        String text = String.valueOf(position);
-//        int duration = Toast.LENGTH_SHORT;
-//
-//        Toast toast = Toast.makeText(this, text, duration);
-//        toast.show();
-//    }
-//    public void consulter2(View v) {
-////        Todo deletedCourse = liste.get(v.);
-//        String text = String.valueOf(v.getId());
-//        int duration = Toast.LENGTH_SHORT;
-//
-//        Toast toast = Toast.makeText(this, text, duration);
-//        toast.show();
-//        int value = v.getId();
-//        Intent i = new Intent(getApplicationContext(), Main_Activity2.class);
-//        i.putExtra("id",value);
-//        startActivity(i);
-//    }
-
-    public void consulter(View v) {
-//        Todo deletedCourse = liste.get(v.);
-//        String text = String.valueOf(position);
-        int duration = Toast.LENGTH_SHORT;
-
-//        Toast toast = Toast.makeText(this, text, duration);
-//        toast.show();
-//        int value = v.getId();
-//        Intent i = new Intent(getApplicationContext(), Main_Activity2.class);
-//        i.putExtra("id",value);
-//        startActivity(i);
     }
 
     @Override
