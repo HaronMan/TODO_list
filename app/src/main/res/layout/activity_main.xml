@@ -15,7 +15,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="15dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="13dp"
         android:onClick="ajouter"
         android:text="@string/add" />
 
@@ -36,12 +37,12 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="191dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="184dp"
+        android:autofillHints=""
         android:ems="10"
         android:hint="@string/new_task"
-        android:autofillHints=""
         android:inputType="text"
         android:text="" />
 

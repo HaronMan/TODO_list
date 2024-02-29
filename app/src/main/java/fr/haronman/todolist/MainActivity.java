@@ -21,6 +21,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     private ArrayList<Todo> liste;
@@ -63,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
                 Todo deletedCourse = liste.get(viewHolder.getAdapterPosition());
                 int position = viewHolder.getAdapterPosition();
                 liste.remove(viewHolder.getAdapterPosition());
-                db.deleteTodo(deletedCourse);
                 recyclerViewAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
                 Snackbar.make(courseRV, deletedCourse.getTitre(), Snackbar.LENGTH_LONG).setAction("Annuler", new View.OnClickListener() {
                     @Override
@@ -79,16 +79,13 @@ public class MainActivity extends AppCompatActivity {
     public void ajouter(View v) {
         courseRV = findViewById(R.id.idRVCourse);
         EditText e = findViewById(R.id.editTextText3);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Todo todo = new Todo(
-                    db.getLastId() ,
-                    e.getText().toString(),
-                    null,
-                    LocalDate.now().toString()
-            );
-            liste.add(todo);
-            db.addTodo(todo);
-        }
+        Todo todo = new Todo(
+                db.getLastId() ,
+                e.getText().toString(),
+                null,
+                Calendar.getInstance().getTime().toString()
+        );
+        liste.add(todo);
         affiche();
     }
 
