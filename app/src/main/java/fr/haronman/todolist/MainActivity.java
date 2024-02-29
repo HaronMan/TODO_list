@@ -1,9 +1,8 @@
 package fr.haronman.todolist;
 
-import fr.haronman.todolist.database.TodoHandler;
+import fr.haronman.todolist.database.SQLiteHelper;
 import fr.haronman.todolist.model.Todo;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -27,14 +25,14 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Todo> liste;
     private RecyclerView courseRV;
     private RecyclerViewAdapter recyclerViewAdapter;
-    private TodoHandler db;
+    private SQLiteHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         liste = new ArrayList<>();
-        db = new TodoHandler(getApplicationContext());
+        db = new SQLiteHelper(getApplicationContext());
 
         EditText editText = findViewById(R.id.editTextText3);
         Button add = findViewById(R.id.add);
@@ -69,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         liste.add(position, deletedCourse);
+                        db.deleteTodo(deletedCourse);
                         recyclerViewAdapter.notifyItemInserted(position);
                     }
                 }).show();
@@ -80,12 +79,13 @@ public class MainActivity extends AppCompatActivity {
         courseRV = findViewById(R.id.idRVCourse);
         EditText e = findViewById(R.id.editTextText3);
         Todo todo = new Todo(
-                db.getLastId() ,
+                db.getLastId()+1,
                 e.getText().toString(),
                 null,
                 Calendar.getInstance().getTime().toString()
         );
         liste.add(todo);
+        db.addTodo(todo);
         affiche();
     }
 
@@ -129,5 +129,11 @@ public class MainActivity extends AppCompatActivity {
 //        Intent i = new Intent(getApplicationContext(), Main_Activity2.class);
 //        i.putExtra("id",value);
 //        startActivity(i);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        db.close();
     }
 }

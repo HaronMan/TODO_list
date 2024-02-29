@@ -31,15 +31,15 @@
 
     <EditText
         android:id="@+id/editTextText3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="274dp"
+        android:layout_height="50dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="184dp"
+        android:layout_marginEnd="121dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/new_task"
