@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    app:cardCornerRadius="5dp"
+    app:cardCornerRadius="10dp"
     app:cardElevation="5dp">
 
     <LinearLayout
         android:id="@+id/test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="3dp"
+        android:layout_marginEnd="50dp"
         android:orientation="vertical"
         android:onClick="consulter">
 
@@ -25,8 +25,11 @@
             android:text="Course Name"
             android:textColor="@color/black" />
 
-        <!--text view for displaying
-            our course description-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#8F8F8F" />
+
         <TextView
             android:id="@+id/idTVCourseDesc"
             android:layout_width="match_parent"
@@ -37,5 +40,12 @@
             android:textColor="@color/black" />
 
     </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/idTVCourseCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:width="50dp" />
 
 </androidx.cardview.widget.CardView>
