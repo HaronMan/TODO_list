@@ -6,6 +6,10 @@ android {
     namespace = "fr.haronman.todolist"
     compileSdk = 34
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "fr.haronman.todolist"
         minSdk = 24
@@ -29,7 +33,10 @@ android {
 }
 
 dependencies {
+    val navVersion = "2.5.2";
 
+    implementation("androidx.navigation:navigation-fragment:$navVersion")
+    implementation("androidx.navigation:navigation-ui:$navVersion")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")

@@ -2,4 +2,5 @@
 <resources>
     <string name="add">Ajouter</string>
     <string name="new_task">Nouvelle tâche</string>
+    <string name="delete_all">Supprimer Tout</string>
 </resources>
