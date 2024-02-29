@@ -66,7 +66,8 @@ public class MainActivity extends AppCompatActivity {
                 liste.remove(viewHolder.getAdapterPosition());
                 db.deleteTodo(deletedCourse);
                 recyclerViewAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-                Snackbar.make(courseRV, deletedCourse.getTitre(), Snackbar.LENGTH_LONG).setAction("Annuler", new View.OnClickListener() {
+                String text = "Tache \""+ deletedCourse.getTitre() +"\" supprimée";
+                Snackbar.make(courseRV, text, Snackbar.LENGTH_LONG).setAction("Annuler", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         liste.add(position, deletedCourse);
