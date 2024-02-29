@@ -52,7 +52,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(KEY_DATE, todo.getDate());
         values.put(KEY_DONE, todo.getFait());
         long insertId = db.insert(TABLE_TODO, null, values);
-        db.close();
         return (int) insertId;
     }
 
@@ -66,7 +65,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         long updateId=db.update(TABLE_TODO,values,
                 KEY_ID + " = ?",
                 new String[]{String.valueOf(todo.getId())});
-        db.close();
         return (int) updateId;
     }
 
@@ -146,6 +144,5 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         SQLiteDatabase db =  getWritableDatabase();
         db.delete( TABLE_TODO,  KEY_ID + " = ?",
                 new String[] { String.valueOf(todo.getId()) });
-        db.close();
     }
 }

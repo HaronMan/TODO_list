@@ -6,6 +6,8 @@ import fr.haronman.todolist.model.Todo;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -62,12 +64,13 @@ public class MainActivity extends AppCompatActivity {
                 Todo deletedCourse = liste.get(viewHolder.getAdapterPosition());
                 int position = viewHolder.getAdapterPosition();
                 liste.remove(viewHolder.getAdapterPosition());
+                db.deleteTodo(deletedCourse);
                 recyclerViewAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
                 Snackbar.make(courseRV, deletedCourse.getTitre(), Snackbar.LENGTH_LONG).setAction("Annuler", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         liste.add(position, deletedCourse);
-                        db.deleteTodo(deletedCourse);
+
                         recyclerViewAdapter.notifyItemInserted(position);
                     }
                 }).show();
@@ -84,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 Todo deletedCourse = liste.get(viewHolder.getAdapterPosition());
                 int position = viewHolder.getAdapterPosition();
                 liste.remove(viewHolder.getAdapterPosition());
+                db.deleteTodo(deletedCourse);
                 recyclerViewAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
             }
         }).attachToRecyclerView(courseRV);
