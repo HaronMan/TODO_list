@@ -3,6 +3,7 @@ package fr.haronman.todolist;
 import fr.haronman.todolist.database.SQLiteHelper;
 import fr.haronman.todolist.model.Todo;
 
+import android.content.Intent;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -94,13 +96,13 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                Todo deletedCourse = liste.get(viewHolder.getAdapterPosition());
-                int position = viewHolder.getAdapterPosition();
-                liste.remove(viewHolder.getAdapterPosition());
-                db.deleteTodo(deletedCourse);
-                recyclerViewAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                Todo selected = liste.get(viewHolder.getAdapterPosition());
+                Intent i = new Intent(MainActivity.this, MainActivity2.class);
+                i.putExtra("id",selected.getId());
+                MainActivity.this.startActivity(i);
             }
         }).attachToRecyclerView(courseRV);
+
     }
 
     @Override
@@ -144,14 +146,10 @@ public class MainActivity extends AppCompatActivity {
     public void ajouter(View v) {
         courseRV = findViewById(R.id.idRVCourse);
         EditText e = findViewById(R.id.editTextText3);
-        Todo todo = new Todo(
-                db.getLastId()+1,
-                e.getText().toString(),
-                null,
-                Calendar.getInstance().getTime().toString()
-        );
+        Todo todo = new Todo(e.getText().toString());
         liste.add(todo);
-        db.addTodo(todo);
+        int id = db.addTodo(todo);
+        todo.setId(id);
         affiche();
     }
 

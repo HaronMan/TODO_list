@@ -19,8 +19,6 @@ public class Todo {
 
     public Todo(String titre) {
         this.titre = titre;
-        this.description = "";
-        this.date = "";
         this.fait = false;
     }
 
