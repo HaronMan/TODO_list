@@ -3,9 +3,12 @@ package fr.haronman.todolist;
 import fr.haronman.todolist.model.Todo;
 
 import android.content.Context;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +28,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 //        this.id = id;
     }
 
+    public ArrayList<Todo> getCourseDataArrayList() {
+        return courseDataArrayList;
+    }
+
     @NonNull
     @Override
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -39,6 +46,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // Set the data to textview from our modal class.
         Todo recyclerData = courseDataArrayList.get(position);
         holder.courseNameTV.setText(recyclerData.getTitre());
+        int visibility = recyclerData.getFait() ? View.VISIBLE : View.GONE;
+        holder.courseImgTV.setVisibility(visibility);
 //        holder.courseNameTV.setId(recyclerData.getId());
 //        holder.courseDescTV.setText(recyclerData.getDescription());
     }
@@ -56,12 +65,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // creating a variable for our text view.
         private TextView courseNameTV;
         private TextView courseDescTV;
+        private ImageView courseImgTV;
 
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
             // initializing our text views.
             courseNameTV = itemView.findViewById(R.id.idTVCourseName);
             courseDescTV = itemView.findViewById(R.id.idTVCourseDesc);
+            courseImgTV = itemView.findViewById(R.id.idTVCourseImg);
         }
     }
 }

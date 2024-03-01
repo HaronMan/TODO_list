@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Todo> liste;
     private RecyclerView courseRV;
     private RecyclerViewAdapter recyclerViewAdapter;
+    private TextView progressText;
+    private ProgressBar progressBar;
     private SQLiteHelper db;
 
     @Override
@@ -65,6 +68,10 @@ public class MainActivity extends AppCompatActivity {
         courseRV = findViewById(R.id.idRVCourse);
         affiche();
 
+        progressText = findViewById(R.id.progress_text);
+        progressBar = findViewById(R.id.progress_bar);
+        updateProgress();
+
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -76,13 +83,14 @@ public class MainActivity extends AppCompatActivity {
                 int position = viewHolder.getAdapterPosition();
                 liste.remove(viewHolder.getAdapterPosition());
                 db.deleteTodo(deletedCourse);
+                updateProgress();
                 recyclerViewAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
                 String text = "Tache \""+ deletedCourse.getTitre() +"\" supprimée";
                 Snackbar.make(courseRV, text, Snackbar.LENGTH_LONG).setAction("Annuler", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         liste.add(position, deletedCourse);
-
+                        updateProgress();
                         recyclerViewAdapter.notifyItemInserted(position);
                     }
                 }).show();
@@ -96,10 +104,18 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                Todo todo = liste.get(position);
+                updateCheck(todo);
+                db.updateTodo(todo);
+                updateProgress();
+                recyclerViewAdapter.notifyItemChanged(position);
+                /*
                 Todo selected = liste.get(viewHolder.getAdapterPosition());
                 Intent i = new Intent(MainActivity.this, MainActivity2.class);
                 i.putExtra("id",selected.getId());
                 MainActivity.this.startActivity(i);
+                 */
             }
         }).attachToRecyclerView(courseRV);
 
@@ -150,6 +166,9 @@ public class MainActivity extends AppCompatActivity {
         liste.add(todo);
         int id = db.addTodo(todo);
         todo.setId(id);
+        todo.setDate(Calendar.getInstance().getTime().toString());
+        db.updateTodo(todo);
+        updateProgress();
         affiche();
     }
 
@@ -159,6 +178,37 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager manager = new LinearLayoutManager(this);
         courseRV.setLayoutManager(manager);
         courseRV.setAdapter(recyclerViewAdapter);
+    }
+
+    public void updateCheck(Todo todo){
+        todo.setFait(!todo.getFait());
+    }
+
+    public void updateProgress(){
+        if(liste.size() > 0) {
+            int nbrValidee = cptTacheValidee(), taille = liste.size();
+
+            progressText.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
+            String text = "Progression des tâches actuelles ("+nbrValidee+"/" +taille+ ")";
+            progressText.setText(text);
+
+            int progression = Math.round((float) nbrValidee/taille * 100);
+            progressBar.setProgress(progression, true);
+        }else{
+            progressText.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    public int cptTacheValidee(){
+        int cpt = 0;
+        for (Todo todo : liste) {
+            if(todo.getFait()){
+                cpt++;
+            }
+        }
+        return cpt;
     }
 
     @Override
