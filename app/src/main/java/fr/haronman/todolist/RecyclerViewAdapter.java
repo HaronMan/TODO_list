@@ -3,6 +3,7 @@ package fr.haronman.todolist;
 import fr.haronman.todolist.model.Todo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,13 +19,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     // creating a variable for our array list and context.
     private ArrayList<Todo> courseDataArrayList;
-    private Context mcontext;
+    private MainActivity ma;
 //    private int id;
 
     // creating a constructor class.
-    public RecyclerViewAdapter(ArrayList<Todo> recyclerDataArrayList, Context mcontext) {
+    public RecyclerViewAdapter(ArrayList<Todo> recyclerDataArrayList, MainActivity ma) {
         this.courseDataArrayList = recyclerDataArrayList;
-        this.mcontext = mcontext;
+        this.ma = ma;
 //        this.id = id;
     }
 
@@ -46,8 +47,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // Set the data to textview from our modal class.
         Todo recyclerData = courseDataArrayList.get(position);
         holder.courseNameTV.setText(recyclerData.getTitre());
+        holder.courseDescTV.setText(recyclerData.getDescription());
         int visibility = recyclerData.getFait() ? View.VISIBLE : View.GONE;
         holder.courseImgTV.setVisibility(visibility);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ma, MainActivity2.class);
+                i.putExtra("id",recyclerData.getId());
+                ma.startActivity(i);
+            }
+        });
 //        holder.courseNameTV.setId(recyclerData.getId());
 //        holder.courseDescTV.setText(recyclerData.getDescription());
     }

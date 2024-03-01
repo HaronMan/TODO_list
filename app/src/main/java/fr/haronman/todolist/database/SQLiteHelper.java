@@ -64,7 +64,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(KEY_DONE, todo.getFait());
         long updateId=db.update(TABLE_TODO,values,
                 KEY_ID + " = ?",
-                new String[]{String.valueOf(todo.getId())});
+                new String[]{
+                        String.valueOf(todo.getId())
+                });
         return (int) updateId;
     }
 
@@ -96,6 +98,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         return todoList;
     }
 
+    /*
     public List<Todo> getAllTodoDone(){
         SQLiteDatabase db =  getWritableDatabase();
         List<Todo> todoList = new ArrayList<Todo>();
@@ -125,6 +128,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         }
         return todoList;
     }
+
+     */
 
     public int getLastId(){
         int lastId;

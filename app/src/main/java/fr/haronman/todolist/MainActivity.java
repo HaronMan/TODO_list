@@ -107,15 +107,8 @@ public class MainActivity extends AppCompatActivity {
                 int position = viewHolder.getAdapterPosition();
                 Todo todo = liste.get(position);
                 updateCheck(todo);
-                db.updateTodo(todo);
                 updateProgress();
                 recyclerViewAdapter.notifyItemChanged(position);
-                /*
-                Todo selected = liste.get(viewHolder.getAdapterPosition());
-                Intent i = new Intent(MainActivity.this, MainActivity2.class);
-                i.putExtra("id",selected.getId());
-                MainActivity.this.startActivity(i);
-                 */
             }
         }).attachToRecyclerView(courseRV);
 
@@ -182,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateCheck(Todo todo){
         todo.setFait(!todo.getFait());
+        db.updateTodo(todo);
     }
 
     public void updateProgress(){

@@ -4,4 +4,8 @@
     <string name="new_task">Nouvelle tâche</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="delete_all">Supprimer Tout</string>
+    <string name="task_name">Nom de la tâche</string>
+    <string name="task_desc">Description de la tâche</string>
+    <string name="valid_modifs">Valider modifs.</string>
+    <string name="textview_check_text">Valider la tache :</string>
 </resources>
